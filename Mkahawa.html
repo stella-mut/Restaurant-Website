@@ -1,0 +1,884 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Mkahawa — Kenyan Kitchen by Josh &amp; Aisha</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Lato:ital,wght@0,300;0,400;0,700;0,900;1,400&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --white:#FFFBF6;
+    --chili:#C21514;
+    --chili-dark:#8E0F0E;
+    --char:#241B17;
+    --ember:#181110;
+    --gold:#D99A3D;
+    --cream:#F3E9DC;
+    --line: rgba(36,27,23,0.14);
+    --shadow: 0 18px 40px rgba(24,17,16,0.18);
+  }
+  *{box-sizing:border-box; margin:0; padding:0;}
+  html{scroll-behavior:smooth;}
+  body{
+    font-family:'Lato', sans-serif;
+    background:var(--white);
+    color:var(--char);
+    line-height:1.6;
+    overflow-x:hidden;
+  }
+  img{display:block; width:100%; height:100%; object-fit:cover;}
+  a{color:inherit; text-decoration:none;}
+  ul{list-style:none;}
+  .eyebrow{
+    font-weight:700;
+    text-transform:uppercase;
+    letter-spacing:.22em;
+    font-size:.72rem;
+    color:var(--chili);
+  }
+  .eyebrow.on-dark{color:var(--gold);}
+  h1,h2,h3{
+    font-weight:900;
+    letter-spacing:-0.02em;
+    line-height:1.02;
+  }
+  h2{font-size:clamp(2.1rem, 4vw, 3.1rem); margin-top:.5rem;}
+  .lede{
+    font-size:1.08rem;
+    max-width:46ch;
+    color:rgba(36,27,23,0.78);
+  }
+  .wrap{max-width:1180px; margin:0 auto; padding:0 32px;}
+  section{padding:108px 0;}
+  .btn{
+    display:inline-flex;
+    align-items:center;
+    gap:10px;
+    padding:15px 30px;
+    font-weight:700;
+    font-size:.92rem;
+    letter-spacing:.02em;
+    border-radius:2px;
+    border:2px solid transparent;
+    cursor:pointer;
+    transition:transform .25s ease, background .25s ease, color .25s ease, border-color .25s ease;
+  }
+  .btn:hover{transform:translateY(-2px);}
+  .btn-fill{background:var(--chili); color:var(--white);}
+  .btn-fill:hover{background:var(--chili-dark);}
+  .btn-outline{border-color:rgba(255,251,246,0.55); color:var(--white);}
+  .btn-outline:hover{border-color:var(--white); background:rgba(255,251,246,0.1);}
+  .btn-outline.dark{border-color:rgba(36,27,23,0.35); color:var(--char);}
+  .btn-outline.dark:hover{border-color:var(--char); background:rgba(36,27,23,0.06);}
+
+  /* NAV */
+  header{
+    position:fixed; top:0; left:0; right:0; z-index:100;
+    padding:20px 0;
+    transition:background .3s ease, padding .3s ease, box-shadow .3s ease;
+  }
+  header.scrolled{
+    background:rgba(24,17,16,0.92);
+    backdrop-filter:blur(6px);
+    padding:12px 0;
+    box-shadow:0 8px 24px rgba(0,0,0,.25);
+  }
+  nav{display:flex; align-items:center; justify-content:space-between;}
+  .brand{
+    font-weight:900;
+    font-size:1.35rem;
+    color:var(--white);
+    letter-spacing:-0.01em;
+  }
+  .brand span{color:var(--gold);}
+  .nav-links{display:flex; gap:30px; align-items:center;}
+  .nav-links a{
+    color:rgba(255,251,246,0.82);
+    font-size:.85rem;
+    font-weight:700;
+    letter-spacing:.03em;
+    text-transform:uppercase;
+    transition:color .2s ease;
+  }
+  .nav-links a:hover{color:var(--gold);}
+  .nav-cta{
+    background:var(--chili);
+    color:var(--white)!important;
+    padding:11px 20px;
+    border-radius:2px;
+  }
+  .nav-toggle{display:none; background:none; border:none; color:var(--white); font-size:1.6rem; cursor:pointer;}
+
+  /* HERO */
+  .hero{
+    position:relative;
+    min-height:100vh;
+    display:flex;
+    align-items:flex-end;
+    color:var(--white);
+    background:var(--ember);
+  }
+  .hero-media{position:absolute; inset:0;}
+  .hero-media img{filter:brightness(0.5) saturate(1.05);}
+  .hero-media::after{
+    content:'';
+    position:absolute; inset:0;
+    background:linear-gradient(180deg, rgba(24,17,16,0.15) 0%, rgba(24,17,16,0.15) 40%, rgba(24,17,16,0.92) 100%);
+  }
+  .hero-content{position:relative; z-index:2; padding-bottom:96px; max-width:760px;}
+  .hero-content .eyebrow{color:var(--gold); margin-bottom:18px;}
+  .hero-content h1{font-size:clamp(3rem, 7vw, 5.4rem); margin-bottom:20px;}
+  .hero-content .lede{color:rgba(255,251,246,0.86); max-width:52ch; font-size:1.15rem; margin-bottom:38px;}
+  .hero-ctas{display:flex; gap:16px; flex-wrap:wrap;}
+  .scroll-cue{
+    position:absolute; bottom:28px; right:32px; z-index:2;
+    writing-mode:vertical-rl;
+    color:rgba(255,251,246,0.6);
+    font-size:.72rem;
+    letter-spacing:.2em;
+    text-transform:uppercase;
+    display:flex; align-items:center; gap:10px;
+  }
+  .scroll-cue::after{content:''; width:1px; height:50px; background:rgba(255,251,246,0.4);}
+
+  /* ABOUT */
+  .about{background:var(--white);}
+  .about-grid{
+    display:grid;
+    grid-template-columns:1fr 1fr;
+    gap:70px;
+    align-items:center;
+  }
+  .about-text p{margin-top:18px; color:rgba(36,27,23,0.82); max-width:52ch;}
+  .about-media{position:relative; border-radius:2px; overflow:hidden; aspect-ratio:4/5; box-shadow:var(--shadow);}
+  .signers{margin-top:32px; font-style:italic; color:var(--chili); font-weight:700; font-size:1.05rem;}
+
+  /* MENU PREVIEW */
+  .menu-preview{background:var(--cream);}
+  .section-head{
+    display:flex; justify-content:space-between; align-items:flex-end; gap:24px; flex-wrap:wrap;
+    margin-bottom:52px;
+  }
+  .dish-grid{
+    display:grid;
+    grid-template-columns:repeat(4,1fr);
+    gap:24px;
+    margin-bottom:48px;
+  }
+  .dish-card{
+    background:var(--white);
+    border-radius:2px;
+    overflow:hidden;
+    box-shadow:0 10px 28px rgba(36,27,23,0.1);
+    transition:transform .3s ease, box-shadow .3s ease;
+  }
+  .dish-card:hover{transform:translateY(-6px); box-shadow:0 20px 36px rgba(36,27,23,0.16);}
+  .dish-img{aspect-ratio:4/5; position:relative;}
+  .dish-price{
+    position:absolute; top:14px; right:14px;
+    background:var(--chili); color:var(--white);
+    font-weight:700; font-size:.82rem;
+    padding:5px 11px; border-radius:2px;
+  }
+  .dish-info{padding:18px 18px 22px;}
+  .dish-info h4{font-size:1.05rem; font-weight:900;}
+  .dish-info p{font-size:.86rem; color:rgba(36,27,23,0.65); margin-top:6px;}
+  .cat-row{
+    display:flex; gap:14px; flex-wrap:wrap; justify-content:center;
+    padding-top:12px; border-top:1px solid var(--line);
+  }
+  .cat-pill{
+    padding:10px 22px; border:1px solid rgba(36,27,23,0.25);
+    border-radius:30px; font-size:.85rem; font-weight:700;
+    letter-spacing:.02em;
+  }
+
+  /* FULL MENU */
+  .full-menu{background:var(--ember); color:var(--white);}
+  .full-menu .eyebrow{color:var(--gold);}
+  .full-menu h2{color:var(--white);}
+  .full-menu .lede{color:rgba(255,251,246,0.72);}
+  .tabs{
+    display:flex; gap:10px; flex-wrap:wrap;
+    margin:40px 0 44px;
+  }
+  .tab{
+    padding:11px 22px; border-radius:2px;
+    border:1px solid rgba(255,251,246,0.28);
+    color:rgba(255,251,246,0.72);
+    font-weight:700; font-size:.85rem;
+    cursor:pointer; letter-spacing:.02em;
+    background:transparent;
+    transition:all .2s ease;
+  }
+  .tab.active, .tab:hover{background:var(--chili); border-color:var(--chili); color:var(--white);}
+  .ticket-grid{
+    display:grid;
+    grid-template-columns:repeat(2,1fr);
+    gap:20px;
+  }
+  .menu-panel{display:none;}
+  .menu-panel.active{display:grid; grid-template-columns:repeat(2,1fr); gap:20px;}
+  .ticket{
+    position:relative;
+    background:var(--white);
+    color:var(--char);
+    padding:22px 26px;
+    border-radius:2px;
+    background-image:
+      repeating-linear-gradient(90deg, transparent 0 10px, rgba(36,27,23,0.16) 10px 11px, transparent 11px 22px);
+    background-repeat:no-repeat;
+    background-position:bottom 46px left 0;
+    background-size:100% 1px;
+  }
+  .ticket::before, .ticket::after{
+    content:''; position:absolute; width:20px; height:20px;
+    background:var(--ember); border-radius:50%;
+    bottom:36px;
+  }
+  .ticket::before{left:-10px;}
+  .ticket::after{right:-10px;}
+  .ticket-top{display:flex; justify-content:space-between; align-items:baseline; gap:14px;}
+  .ticket-top h4{font-size:1.12rem; font-weight:900;}
+  .ticket-top .price{color:var(--chili); font-weight:900; font-size:1.05rem; white-space:nowrap;}
+  .ticket p{font-size:.87rem; color:rgba(36,27,23,0.68); margin-top:6px; padding-bottom:20px;}
+  .ticket .tag{
+    display:inline-block; margin-top:16px;
+    font-size:.68rem; font-weight:700; letter-spacing:.12em; text-transform:uppercase;
+    color:var(--gold);
+  }
+
+  /* SIGNATURE DISHES */
+  .signature{background:var(--white);}
+  .sig-grid{
+    display:grid;
+    grid-template-columns:1.1fr 0.9fr;
+    gap:26px;
+    margin-top:50px;
+  }
+  .sig-feature{position:relative; border-radius:2px; overflow:hidden; min-height:520px; box-shadow:var(--shadow);}
+  .sig-feature img{position:absolute; inset:0;}
+  .sig-feature-caption{
+    position:absolute; left:0; right:0; bottom:0; z-index:2;
+    padding:32px;
+    background:linear-gradient(0deg, rgba(24,17,16,0.88), transparent);
+    color:var(--white);
+  }
+  .sig-side{display:grid; grid-template-rows:1fr 1fr; gap:26px;}
+  .sig-small{position:relative; border-radius:2px; overflow:hidden; box-shadow:var(--shadow);}
+  .sig-small img{position:absolute; inset:0;}
+  .sig-small-caption{
+    position:absolute; left:0; right:0; bottom:0; z-index:2;
+    padding:22px;
+    background:linear-gradient(0deg, rgba(24,17,16,0.85), transparent);
+    color:var(--white);
+  }
+  .sig-small-caption h4, .sig-feature-caption h4{font-weight:900; font-size:1.2rem;}
+  .sig-small-caption p, .sig-feature-caption p{font-size:.84rem; color:rgba(255,251,246,0.78); margin-top:4px;}
+
+  /* SPACE GALLERY */
+  .space{background:var(--cream);}
+  .gallery{
+    display:grid;
+    grid-template-columns:repeat(4, 1fr);
+    grid-auto-rows:150px;
+    gap:14px;
+    margin-top:50px;
+  }
+  .gallery figure{position:relative; overflow:hidden; border-radius:2px;}
+  .gallery figure:nth-child(1){grid-column:span 2; grid-row:span 2;}
+  .gallery figure:nth-child(4){grid-column:span 2;}
+  .gallery figure img{transition:transform .5s ease;}
+  .gallery figure:hover img{transform:scale(1.06);}
+
+  /* VISIT */
+  .visit{background:var(--white);}
+  .visit-grid{
+    display:grid;
+    grid-template-columns:1fr 1fr;
+    gap:60px;
+  }
+  .info-list{margin-top:28px;}
+  .info-list li{
+    display:flex; gap:16px;
+    padding:18px 0;
+    border-bottom:1px solid var(--line);
+  }
+  .info-list li:first-child{padding-top:0;}
+  .info-list .label{
+    min-width:120px; font-weight:700; color:var(--chili);
+    font-size:.82rem; text-transform:uppercase; letter-spacing:.05em;
+  }
+  .map-box{
+    border-radius:2px; overflow:hidden; box-shadow:var(--shadow);
+    aspect-ratio:1/1; position:relative;
+  }
+  .map-box iframe{width:100%; height:100%; border:0;}
+
+  /* RESERVATIONS */
+  .reserve{background:var(--chili); color:var(--white); position:relative; overflow:hidden;}
+  .reserve::before{
+    content:'';
+    position:absolute; right:-120px; top:-120px;
+    width:420px; height:420px; border-radius:50%;
+    background:rgba(255,251,246,0.07);
+  }
+  .reserve .eyebrow{color:var(--white); opacity:.85;}
+  .reserve h2{color:var(--white);}
+  .reserve-grid{
+    position:relative; z-index:2;
+    display:grid;
+    grid-template-columns:1.1fr 1fr;
+    gap:60px;
+    align-items:center;
+  }
+  .reserve-form{
+    background:var(--white); color:var(--char);
+    padding:36px; border-radius:2px; box-shadow:var(--shadow);
+  }
+  .reserve-form h3{font-size:1.1rem; margin-bottom:20px;}
+  .form-row{display:grid; grid-template-columns:1fr 1fr; gap:14px; margin-bottom:14px;}
+  .form-row.full{grid-template-columns:1fr;}
+  .reserve-form label{
+    display:block; font-size:.72rem; font-weight:700; text-transform:uppercase;
+    letter-spacing:.05em; margin-bottom:6px; color:rgba(36,27,23,0.6);
+  }
+  .reserve-form input, .reserve-form select{
+    width:100%; padding:12px 14px; border:1px solid rgba(36,27,23,0.2);
+    border-radius:2px; font-family:'Lato',sans-serif; font-size:.92rem;
+    background:var(--white); color:var(--char);
+  }
+  .reserve-form .btn{width:100%; justify-content:center; margin-top:6px;}
+  .reserve-notes{color:rgba(255,251,246,0.9);}
+  .reserve-notes p{margin-top:16px; padding-left:22px; position:relative;}
+  .reserve-notes p::before{content:'—'; position:absolute; left:0;}
+
+  /* HAPPENING */
+  .happening{background:var(--ember); color:var(--white);}
+  .happening .eyebrow{color:var(--gold);}
+  .happening h2{color:var(--white);}
+  .event-list{margin-top:46px; border-top:1px solid rgba(255,251,246,0.16);}
+  .event-row{
+    display:grid; grid-template-columns:140px 1fr auto; gap:24px; align-items:center;
+    padding:26px 0; border-bottom:1px solid rgba(255,251,246,0.16);
+  }
+  .event-row .day{font-weight:900; color:var(--gold); font-size:.95rem; letter-spacing:.04em; text-transform:uppercase;}
+  .event-row h4{font-size:1.15rem; font-weight:900;}
+  .event-row p{font-size:.87rem; color:rgba(255,251,246,0.68); margin-top:4px;}
+  .event-row .time{font-size:.82rem; color:rgba(255,251,246,0.6); white-space:nowrap;}
+
+  /* NEWSLETTER */
+  .newsletter{background:var(--cream); text-align:center;}
+  .newsletter .wrap{max-width:640px;}
+  .newsletter h2{font-size:clamp(1.8rem,3.4vw,2.4rem);}
+  .newsletter form{
+    display:flex; gap:12px; margin-top:32px;
+    background:var(--white); padding:8px; border-radius:2px; box-shadow:0 10px 24px rgba(36,27,23,0.1);
+  }
+  .newsletter input{
+    flex:1; border:none; padding:14px 16px; font-family:'Lato',sans-serif; font-size:.95rem; background:transparent;
+  }
+  .newsletter input:focus{outline:none;}
+
+  /* FOOTER */
+  footer{background:var(--ember); color:rgba(255,251,246,0.75); padding:80px 0 30px;}
+  .footer-grid{
+    display:grid; grid-template-columns:1.4fr 1fr 1fr 1fr; gap:40px;
+    padding-bottom:50px; border-bottom:1px solid rgba(255,251,246,0.14);
+  }
+  .footer-brand .brand{margin-bottom:14px;}
+  .footer-brand p{max-width:32ch; font-size:.9rem; color:rgba(255,251,246,0.6);}
+  .footer-col h5{
+    color:var(--white); font-size:.78rem; text-transform:uppercase; letter-spacing:.1em;
+    margin-bottom:18px; font-weight:700;
+  }
+  .footer-col li{margin-bottom:10px; font-size:.9rem;}
+  .footer-col a:hover{color:var(--gold);}
+  .footer-bottom{
+    display:flex; justify-content:space-between; align-items:center; padding-top:26px;
+    font-size:.8rem; color:rgba(255,251,246,0.45); flex-wrap:wrap; gap:14px;
+  }
+  .socials{display:flex; gap:16px;}
+
+  @media (max-width: 900px){
+    .about-grid, .visit-grid, .reserve-grid, .sig-grid{grid-template-columns:1fr;}
+    .dish-grid{grid-template-columns:repeat(2,1fr);}
+    .ticket-grid, .menu-panel.active{grid-template-columns:1fr;}
+    .gallery{grid-template-columns:repeat(2,1fr);}
+    .gallery figure:nth-child(1){grid-column:span 2; grid-row:span 1;}
+    .footer-grid{grid-template-columns:1fr 1fr; gap:30px;}
+    .nav-links{
+      position:fixed; top:0; right:0; height:100vh; width:min(78vw,320px);
+      background:var(--ember); flex-direction:column; align-items:flex-start;
+      padding:100px 32px 32px; gap:22px;
+      transform:translateX(100%); transition:transform .35s ease;
+    }
+    .nav-links.open{transform:translateX(0);}
+    .nav-toggle{display:block;}
+    section{padding:76px 0;}
+    .form-row{grid-template-columns:1fr;}
+  }
+  @media (max-width:560px){
+    .dish-grid{grid-template-columns:1fr;}
+    .event-row{grid-template-columns:1fr; gap:6px;}
+  }
+  @media (prefers-reduced-motion: reduce){
+    html{scroll-behavior:auto;}
+    *{transition:none!important;}
+  }
+</style>
+</head>
+<body>
+
+<header id="siteHeader">
+  <div class="wrap">
+    <nav>
+      <a href="#top" class="brand">Mkahawa<span>.</span></a>
+      <ul class="nav-links" id="navLinks">
+        <li><a href="#about">About</a></li>
+        <li><a href="#menu">Menu</a></li>
+        <li><a href="#dishes">Signature</a></li>
+        <li><a href="#space">The Space</a></li>
+        <li><a href="#visit">Visit</a></li>
+        <li><a href="#happening">Happening</a></li>
+        <li><a href="#reserve" class="nav-cta">Book a Table</a></li>
+      </ul>
+      <button class="nav-toggle" id="navToggle" aria-label="Toggle menu">☰</button>
+    </nav>
+  </div>
+</header>
+
+<!-- HERO -->
+<section class="hero" id="top">
+  <div class="hero-media">
+    <img src="https://images.unsplash.com/photo-1529193591184-b1d58069ecdd?auto=format&fit=crop&w=1920&q=80" alt="Nyama choma grilling over open coals">
+  </div>
+  <div class="wrap hero-content">
+    <p class="eyebrow">A Neighborhood Kitchen, Kenyan at Heart</p>
+    <h1>Mkahawa</h1>
+    <p class="lede">Charcoal-grilled nyama choma, slow pilau, and a table for the neighborhood — cooked by Josh &amp; Aisha, the way it's done back home.</p>
+    <div class="hero-ctas">
+      <a href="#menu" class="btn btn-fill">View Menu</a>
+      <a href="#reserve" class="btn btn-outline">Book a Table</a>
+    </div>
+  </div>
+  <div class="scroll-cue">Scroll</div>
+</section>
+
+<!-- ABOUT -->
+<section class="about" id="about">
+  <div class="wrap about-grid">
+    <div class="about-text">
+      <p class="eyebrow">Our Story</p>
+      <h2>Come meet us.</h2>
+      <p>Nyumbani started the way most good things do — with a charcoal grill in a backyard, a pot of pilau on the stove, and too many neighbors showing up for dinner. Josh runs the grill. Aisha runs the kitchen. Between them, they've turned Sunday family cooking into a place the whole block eats at now.</p>
+      <p>We cook the way we were taught: slow, over real fire, with spice blends passed down rather than measured out. Nothing fancy — just nyama choma done right, ugali that holds its shape, and greens picked up the morning we cook them.</p>
+      <p class="signers">— Josh &amp; Aisha</p>
+    </div>
+    <div class="about-media">
+      <img src="https://images.unsplash.com/photo-1414235077428-338989a2e8c0?auto=format&fit=crop&w=900&q=80" alt="Guests sharing a warm meal together at the restaurant">
+    </div>
+  </div>
+</section>
+
+<!-- MENU PREVIEW -->
+<section class="menu-preview" id="menu">
+  <div class="wrap">
+    <div class="section-head">
+      <div>
+        <p class="eyebrow">On The Table</p>
+        <h2>A few of our favorites</h2>
+      </div>
+      <p class="lede">Real dishes, shot the way they land on your table — the full menu is a scroll away.</p>
+    </div>
+
+    <div class="dish-grid">
+      <div class="dish-card">
+        <div class="dish-img">
+          <img src="https://images.unsplash.com/photo-1544025162-d76694265947?auto=format&fit=crop&w=800&q=80" alt="Nyama choma grilled meat platter">
+          <span class="dish-price">$18</span>
+        </div>
+        <div class="dish-info">
+          <h4>Nyama Choma</h4>
+          <p>Charcoal-grilled goat or beef, kachumbari on the side</p>
+        </div>
+      </div>
+      <div class="dish-card">
+        <div class="dish-img">
+          <img src="https://images.unsplash.com/photo-1512058564366-18510be2db19?auto=format&fit=crop&w=800&q=80" alt="Kenyan pilau spiced rice dish">
+          <span class="dish-price">$15</span>
+        </div>
+        <div class="dish-info">
+          <h4>Pilau</h4>
+          <p>Slow-spiced rice, beef, cardamom, cloves</p>
+        </div>
+      </div>
+      <div class="dish-card">
+        <div class="dish-img">
+          <img src="https://images.unsplash.com/photo-1601050690597-df0568f70950?auto=format&fit=crop&w=800&q=80" alt="Freshly fried samosas">
+          <span class="dish-price">$7</span>
+        </div>
+        <div class="dish-info">
+          <h4>Beef Samosas</h4>
+          <p>Hand-folded, fried to order, tamarind dip</p>
+        </div>
+      </div>
+      <div class="dish-card">
+        <div class="dish-img">
+          <img src="https://images.unsplash.com/photo-1509440159596-0249088772ff?auto=format&fit=crop&w=800&q=80" alt="Mandazi sweet fried bread">
+          <span class="dish-price">$6</span>
+        </div>
+        <div class="dish-info">
+          <h4>Mandazi &amp; Chai</h4>
+          <p>Coconut fried bread, cardamom-ginger chai</p>
+        </div>
+      </div>
+    </div>
+
+    <div class="cat-row">
+      <span class="cat-pill">Breakfast</span>
+      <span class="cat-pill">Lunch</span>
+      <span class="cat-pill">Dinner</span>
+      <span class="cat-pill">Drinks</span>
+    </div>
+    <div style="text-align:center; margin-top:36px;">
+      <a href="#full-menu" class="btn btn-outline dark">View Full Menu</a>
+    </div>
+  </div>
+</section>
+
+<!-- FULL MENU -->
+<section class="full-menu" id="full-menu">
+  <div class="wrap">
+    <p class="eyebrow">The Full Menu</p>
+    <h2>Everything we cook, priced plain</h2>
+    <p class="lede">Sorted by category so you can find what you're after — no wall of text, just the dishes.</p>
+
+    <div class="tabs" role="tablist">
+      <button class="tab active" data-tab="breakfast">Breakfast</button>
+      <button class="tab" data-tab="lunch">Lunch</button>
+      <button class="tab" data-tab="dinner">Dinner</button>
+      <button class="tab" data-tab="drinks">Drinks</button>
+    </div>
+
+    <div class="menu-panel active" id="breakfast">
+      <div class="ticket">
+        <div class="ticket-top"><h4>Mandazi &amp; Chai</h4><span class="price">$6</span></div>
+        <p>Coconut fried bread with cardamom-ginger chai</p>
+        <span class="tag">Sweet</span>
+      </div>
+      <div class="ticket">
+        <div class="ticket-top"><h4>Mahamri</h4><span class="price">$6</span></div>
+        <p>Coastal spiced doughnuts, coconut milk dough</p>
+        <span class="tag">Coastal</span>
+      </div>
+      <div class="ticket">
+        <div class="ticket-top"><h4>Uji Porridge</h4><span class="price">$5</span></div>
+        <p>Fermented millet porridge, lightly spiced</p>
+        <span class="tag">Gluten-Free</span>
+      </div>
+      <div class="ticket">
+        <div class="ticket-top"><h4>Egg &amp; Sausage Chapati Wrap</h4><span class="price">$9</span></div>
+        <p>Griddled chapati, fried egg, beef sausage</p>
+        <span class="tag">House Favorite</span>
+      </div>
+    </div>
+
+    <div class="menu-panel" id="lunch">
+      <div class="ticket">
+        <div class="ticket-top"><h4>Beef Samosas (3)</h4><span class="price">$7</span></div>
+        <p>Hand-folded, fried to order, tamarind dip</p>
+        <span class="tag">Starter</span>
+      </div>
+      <div class="ticket">
+        <div class="ticket-top"><h4>Githeri Bowl</h4><span class="price">$12</span></div>
+        <p>Maize and beans stewed with tomato, onion, herbs</p>
+        <span class="tag">Vegan</span>
+      </div>
+      <div class="ticket">
+        <div class="ticket-top"><h4>Chapati &amp; Beef Stew</h4><span class="price">$13</span></div>
+        <p>Layered flatbread, slow beef stew</p>
+        <span class="tag">Comfort</span>
+      </div>
+      <div class="ticket">
+        <div class="ticket-top"><h4>Sukuma Wiki &amp; Ugali</h4><span class="price">$11</span></div>
+        <p>Collard greens, onion, tomato, cornmeal ugali</p>
+        <span class="tag">Vegan</span>
+      </div>
+    </div>
+
+    <div class="menu-panel" id="dinner">
+      <div class="ticket">
+        <div class="ticket-top"><h4>Nyama Choma Platter</h4><span class="price">$18</span></div>
+        <p>Charcoal-grilled goat or beef, kachumbari, ugali</p>
+        <span class="tag">Signature</span>
+      </div>
+      <div class="ticket">
+        <div class="ticket-top"><h4>Pilau</h4><span class="price">$15</span></div>
+        <p>Slow-spiced rice, beef, cardamom, cloves</p>
+        <span class="tag">Signature</span>
+      </div>
+      <div class="ticket">
+        <div class="ticket-top"><h4>Coastal Tilapia Curry</h4><span class="price">$19</span></div>
+        <p>Whole fried tilapia, coconut curry, rice</p>
+        <span class="tag">Swahili Coast</span>
+      </div>
+      <div class="ticket">
+        <div class="ticket-top"><h4>Mukimo &amp; Beef Stew</h4><span class="price">$14</span></div>
+        <p>Mashed potato, maize, greens, pumpkin leaves</p>
+        <span class="tag">Comfort</span>
+      </div>
+    </div>
+
+    <div class="menu-panel" id="drinks">
+      <div class="ticket">
+        <div class="ticket-top"><h4>Cardamom Chai</h4><span class="price">$4</span></div>
+        <p>Slow-brewed black tea, milk, cardamom</p>
+        <span class="tag">Hot</span>
+      </div>
+      <div class="ticket">
+        <div class="ticket-top"><h4>Tamarind Cooler</h4><span class="price">$5</span></div>
+        <p>Fresh tamarind, ginger, lime</p>
+        <span class="tag">Cold</span>
+      </div>
+      <div class="ticket">
+        <div class="ticket-top"><h4>Dawa Cocktail</h4><span class="price">$11</span></div>
+        <p>Vodka, honey, lime, crushed ice</p>
+        <span class="tag">Bar</span>
+      </div>
+      <div class="ticket">
+        <div class="ticket-top"><h4>Tusker Lager</h4><span class="price">$7</span></div>
+        <p>Kenyan lager, served ice cold</p>
+        <span class="tag">Beer</span>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- SIGNATURE DISHES -->
+<section class="signature" id="dishes">
+  <div class="wrap">
+    <p class="eyebrow">Made With What's Around Us</p>
+    <h2>Signature dishes, seasonal touches</h2>
+    <div class="sig-grid">
+      <div class="sig-feature">
+        <img src="https://images.unsplash.com/photo-1626082927389-6cd097cdc6ec?auto=format&fit=crop&w=1000&q=80" alt="Coastal fish curry with coconut and spices">
+        <div class="sig-feature-caption">
+          <h4>Coastal Tilapia Curry</h4>
+          <p>Whole fried tilapia finished in a coconut curry — a dish straight from the Swahili coast, on the menu since day one.</p>
+        </div>
+      </div>
+      <div class="sig-side">
+        <div class="sig-small">
+          <img src="https://images.unsplash.com/photo-1540420773420-3366772f4999?auto=format&fit=crop&w=700&q=80" alt="Sukuma wiki collard greens">
+          <div class="sig-small-caption">
+            <h4>Sukuma Wiki</h4>
+            <p>Greens picked the morning we cook them</p>
+          </div>
+        </div>
+        <div class="sig-small">
+          <img src="https://images.unsplash.com/photo-1565299624946-b28f40a0ae38?auto=format&fit=crop&w=700&q=80" alt="Fresh chapati flatbread">
+          <div class="sig-small-caption">
+            <h4>Hand-Rolled Chapati</h4>
+            <p>Laminated and griddled to order</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- SPACE -->
+<section class="space" id="space">
+  <div class="wrap">
+    <p class="eyebrow">The Space</p>
+    <h2>Beyond the food</h2>
+    <div class="gallery">
+      <figure>
+        <img src="https://images.unsplash.com/photo-1517248135467-4c7edcad34c4?auto=format&fit=crop&w=1000&q=80" alt="Warm restaurant dining room">
+      </figure>
+      <figure>
+        <img src="https://images.unsplash.com/photo-1552566626-52f8b828add9?auto=format&fit=crop&w=700&q=80" alt="Outdoor seating patio">
+      </figure>
+      <figure>
+        <img src="https://images.unsplash.com/photo-1470337458703-46ad1756a187?auto=format&fit=crop&w=700&q=80" alt="Restaurant bar counter">
+      </figure>
+      <figure>
+        <img src="https://images.unsplash.com/photo-1577219491135-ce391730fb2c?auto=format&fit=crop&w=1000&q=80" alt="Chef grilling over open coals">
+      </figure>
+      <figure>
+        <img src="https://images.unsplash.com/photo-1555939594-58d7cb561ad1?auto=format&fit=crop&w=700&q=80" alt="Close-up of a plated dish">
+      </figure>
+    </div>
+  </div>
+</section>
+
+<!-- VISIT -->
+<section class="visit" id="visit">
+  <div class="wrap visit-grid">
+    <div>
+      <p class="eyebrow">Find Us</p>
+      <h2>Visit Mkahawa</h2>
+      <ul class="info-list">
+        <li><span class="label">Address</span><span>1420 Cedar Avenue, Riverwood Heights</span></li>
+        <li><span class="label">Hours</span><span>Tue–Fri 11am–10pm · Sat–Sun 9am–11pm · Closed Mondays</span></li>
+        <li><span class="label">Phone</span><span>(206) 555-0142</span></li>
+        <li><span class="label">Parking</span><span>Free lot behind the building, street parking on Cedar Ave</span></li>
+        <li><span class="label">Access</span><span>Step-free entrance, accessible restroom, service animals welcome</span></li>
+      </ul>
+      <a href="https://www.google.com/maps" target="_blank" rel="noopener" class="btn btn-fill" style="margin-top:28px;">Get Directions</a>
+    </div>
+    <div class="map-box">
+      <iframe src="https://www.google.com/maps?q=Seattle&output=embed" loading="lazy" title="Map to Nyumbani restaurant"></iframe>
+    </div>
+  </div>
+</section>
+
+<!-- RESERVATIONS -->
+<section class="reserve" id="reserve">
+  <div class="wrap reserve-grid">
+    <div class="reserve-notes">
+      <p class="eyebrow">Reservations</p>
+      <h2>Book a table</h2>
+      <p>Reserve ahead for dinner, especially Fridays. Walk-ins are always welcome at the bar and patio.</p>
+      <p>Groups of 6 or more, call us directly so we can set the right table.</p>
+      <p>Hosting something bigger? We do private dining and full buyouts for events — ask about our back room.</p>
+    </div>
+    <form class="reserve-form" onsubmit="event.preventDefault(); alert('Thanks — we will confirm your table shortly.');">
+      <h3>Reserve your table</h3>
+      <div class="form-row">
+        <div><label for="r-name">Name</label><input id="r-name" type="text" placeholder="Full name" required></div>
+        <div><label for="r-phone">Phone</label><input id="r-phone" type="tel" placeholder="(555) 555-5555" required></div>
+      </div>
+      <div class="form-row">
+        <div><label for="r-date">Date</label><input id="r-date" type="date" required></div>
+        <div><label for="r-time">Time</label><input id="r-time" type="time" required></div>
+      </div>
+      <div class="form-row full">
+        <div>
+          <label for="r-guests">Guests</label>
+          <select id="r-guests">
+            <option>1 guest</option><option>2 guests</option><option>3 guests</option>
+            <option>4 guests</option><option>5 guests</option><option>6+ guests — please call</option>
+          </select>
+        </div>
+      </div>
+      <button type="submit" class="btn btn-fill">Confirm Reservation</button>
+    </form>
+  </div>
+</section>
+
+<!-- WHAT'S HAPPENING -->
+<section class="happening" id="happening">
+  <div class="wrap">
+    <p class="eyebrow">What's Happening</p>
+    <h2>This month at Mkahawa</h2>
+    <div class="event-list">
+      <div class="event-row">
+        <span class="day">Fridays</span>
+        <div><h4>Nyama Choma Night</h4><p>Whole grill menu, live band from 7pm</p></div>
+        <span class="time">6pm – Close</span>
+      </div>
+      <div class="event-row">
+        <span class="day">Sundays</span>
+        <div><h4>Family Pilau Sunday</h4><p>Sharing platters, half off for kids under 10</p></div>
+        <span class="time">12pm – 4pm</span>
+      </div>
+      <div class="event-row">
+        <span class="day">Monthly</span>
+        <div><h4>Wine &amp; Nyama Pairing</h4><p>A seasonal five-course tasting, limited seats</p></div>
+        <span class="time">Last Thursday</span>
+      </div>
+      <div class="event-row">
+        <span class="day">Holidays</span>
+        <div><h4>Adjusted Hours</h4><p>Check our socials for holiday closures and specials</p></div>
+        <span class="time">Varies</span>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- NEWSLETTER -->
+<section class="newsletter">
+  <div class="wrap">
+    <p class="eyebrow">Stay Close</p>
+    <h2>Hear about new dishes and what's cooking</h2>
+    <p class="lede" style="margin:12px auto 0;">New specials, neighborhood events, and the occasional early table — straight to your inbox.</p>
+    <form onsubmit="event.preventDefault(); this.reset(); alert('Welcome to the table — you are on the list.');">
+      <input type="email" placeholder="you@email.com" required>
+      <button type="submit" class="btn btn-fill">Join</button>
+    </form>
+  </div>
+</section>
+
+<!-- FOOTER -->
+<footer>
+  <div class="wrap">
+    <div class="footer-grid">
+      <div class="footer-brand">
+        <a href="#top" class="brand">Mkahawa<span>.</span></a>
+        <p>Kenyan home cooking, open-fire grills, and a table for the neighborhood.</p>
+      </div>
+      <div class="footer-col">
+        <h5>Explore</h5>
+        <ul>
+          <li><a href="#menu">Menu</a></li>
+          <li><a href="#dishes">Signature Dishes</a></li>
+          <li><a href="#space">The Space</a></li>
+          <li><a href="#happening">What's Happening</a></li>
+        </ul>
+      </div>
+      <div class="footer-col">
+        <h5>Visit</h5>
+        <ul>
+          <li>1420 Cedar Avenue</li>
+          <li>Riverwood Heights</li>
+          <li>(206) 555-0142</li>
+          <li><a href="#reserve">Reservations</a></li>
+        </ul>
+      </div>
+      <div class="footer-col">
+        <h5>Follow</h5>
+        <ul class="socials">
+          <li><a href="#">Instagram</a></li>
+          <li><a href="#">Facebook</a></li>
+        </ul>
+      </div>
+    </div>
+    <div class="footer-bottom">
+      <span>© 2026 Mkahawa. All rights reserved.</span>
+      <span><a href="#">Privacy</a> · <a href="#">Terms</a></span>
+    </div>
+  </div>
+</footer>
+
+<script>
+  // Header scroll state
+  const header = document.getElementById('siteHeader');
+  window.addEventListener('scroll', () => {
+    header.classList.toggle('scrolled', window.scrollY > 40);
+  });
+
+  // Mobile nav toggle
+  const navToggle = document.getElementById('navToggle');
+  const navLinks = document.getElementById('navLinks');
+  navToggle.addEventListener('click', () => navLinks.classList.toggle('open'));
+  navLinks.querySelectorAll('a').forEach(a => a.addEventListener('click', () => navLinks.classList.remove('open')));
+
+  // Menu tabs
+  const tabs = document.querySelectorAll('.tab');
+  const panels = document.querySelectorAll('.menu-panel');
+  tabs.forEach(tab => {
+    tab.addEventListener('click', () => {
+      tabs.forEach(t => t.classList.remove('active'));
+      panels.forEach(p => p.classList.remove('active'));
+      tab.classList.add('active');
+      document.getElementById(tab.dataset.tab).classList.add('active');
+    });
+  });
+</script>
+
+</body>
+</html>
